@@ -7,7 +7,8 @@
         $password_confirm = $_POST['password_confirm'];
 
         include_once '../classes/SignupController.php';
-        $signup = new SignupController();
+        $signup = new SignupController($username, $email, $password, $password_confirms);
+
     }else {
         header('Location: signup.php');
         exit();
