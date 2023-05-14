@@ -1,5 +1,4 @@
 <?php
-  include 'Signup.php';
   class SignupController extends Signup{
 
     private $username;
@@ -16,40 +15,37 @@
 
     public function signup_user()
     {
+
       if($this->is_empty() == false){
-        header("location: ../index.php?error=emptyinput");
-        exit();
-      }
-      if($this->is_empty() == false){
-        header("location: ../index.php?error=emptyinput");
+        header("location: ../signup.php?error=emptyinput");
         exit();
       }
       if($this->is_username_valid() == false){
-        header("location: ../index.php?error=invalidUsername");
+        header("location: ../signup.php?error=invalidUsername");
         exit();
       }
       if($this->is_email_valid() == false){
-        header("location: ../index.php?error=invalidEmail");
+        header("location: ../signup.php?error=invalidEmail");
         exit();
       }
       if($this->does_password_match() == false){
-        header("location: ../index.php?error=passwordmatch");
+        header("location: ../signup.php?error=passwordmatch");
         exit();
       }
       if($this->check_user() == false){
-        header("location: ../index.php?error=userExist");
+        header("location: ../signup.php?error=userExist");
         exit();
       }
 
-      $this->setUser($this->email, $this->username,$this->password);
+      $this->setUser($this->username,$this->email,$this->password);
     }
-
+   
     public function is_empty()
     {
       if(empty($this->username) || empty($this->email) || empty($this->password)|| empty($this->password_confirm)){
         return false;
       }else{
-        return false;
+        return true;
       }
     }
 
@@ -81,7 +77,7 @@
     }
     public function check_user()
     {
-      if($this->does_user_exist($this->email,$this->username)){
+      if($this->does_user_exist($this->email,$this->username) == false){
         return false;
       }else {
         return true;

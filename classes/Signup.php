@@ -1,6 +1,5 @@
 <?php
-include 'Database.php';
-class Signup extends Database
+class Signup extends Dbh
 {
     public function setUser($email, $username, $password)
     {
@@ -11,13 +10,12 @@ class Signup extends Database
             'password'=> $hashedPassword,     
         ];
 
-        $sql = "INSERT INTO users (username, email, password, registerd) VALUES(:username,:email,:password)";
-        $sth = $this->getConnection()->prepare($sql);
+        $sql = "INSERT INTO users (username, email, password) VALUES(:username,:email,:password)";
+        $sth = $this->connection()->prepare($sql);
         if(!$sth->execute($data)){
-            header("location: ../index.php?error=setUserFail");
+            header("location: ../index.php?error=dhbExecuteFail");
             exit();
         }
-        
     }
 
     public function does_user_exist($email, $username)
@@ -27,20 +25,21 @@ class Signup extends Database
             'username' => $username
         ];
 
-        $sql = "SELECT id From users WHERE email = :email AND username = :username";
-        $sth = $this->getConnection()->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sql = "SELECT id From users WHERE email = :email OR username = :username;";
+        $sth = $this->connection()->prepare($sql);
         $sth->execute($data);
 
         if(!$sth->execute($data)){
-            header("location: ../index.php?error=setUserFail");
+            header("location: ../index.php?error=dhbExecuteFail");
             exit();
         }
-
-        if($sth->fetchAll() > 0){
+        
+        print_r($sth->rowCount());
+        exit();
+        if(true){
             return false;
         }else{
             return true;
         }
-
     }
 }
