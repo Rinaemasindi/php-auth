@@ -37,7 +37,7 @@
         exit();
       }
 
-      $this->setUser($this->username,$this->email,$this->password);
+      $this->setUser($this->email,$this->username,$this->password);
     }
    
     public function is_empty()
@@ -77,10 +77,10 @@
     }
     public function check_user()
     {
-      if($this->does_user_exist($this->email,$this->username) == false){
-        return false;
-      }else {
+      if($this->does_user_exist($this->email,$this->username)){
         return true;
+      }else {
+        return false;
       }
     }
   }

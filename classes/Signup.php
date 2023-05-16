@@ -24,19 +24,16 @@ class Signup extends Dbh
             'email' => $email,
             'username' => $username
         ];
-
+     
         $sql = "SELECT id From users WHERE email = :email OR username = :username;";
         $sth = $this->connection()->prepare($sql);
-        $sth->execute($data);
-
+        
         if(!$sth->execute($data)){
             header("location: ../index.php?error=dhbExecuteFail");
             exit();
         }
         
-        print_r($sth->rowCount());
-        exit();
-        if(true){
+        if($sth->rowCount() > 0){
             return false;
         }else{
             return true;
